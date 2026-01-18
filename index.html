@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -83,7 +84,7 @@
 <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./service-worker.js')
-    .then(() => console.log('Service Worker registered'))
+    .then(() => console.log('Service Worker registered and ready for offline'))
     .catch(err => console.log('Service Worker registration failed:', err));
 } 
 </script>
