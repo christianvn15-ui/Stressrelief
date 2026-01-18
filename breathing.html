@@ -1,62 +1,81 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Breathing • CalmSpace</title>
+<title>Box Breathing • CalmSpace</title>
 
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet"
- href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#a2d5c6">
 <link rel="icon" href="icons/icon-192.png">
 </head>
 
 <body>
+
 <header>
-  <h2>Breathing Exercises</h2>
+  <h2>Box Breathing</h2>
 </header>
 
 <main class="center-page">
   <section class="card">
-    <label for="preset">Preset</label>
-    <select id="preset">
-      <option value="4">Calm (4-4-4-4)</option>
-      <option value="3">Panic (3-3-3-3)</option>
-      <option value="5">Sleep (5-5-5-5)</option>
-      <option value="6">Focus (6-6-6-6)</option>
-    </select>
-
-    <svg width="220" height="220">
-      <circle cx="110" cy="110" r="90" class="breath-bg"/>
-      <circle cx="110" cy="110" r="90" class="breath-ring"/>
-      <text x="110" y="120" text-anchor="middle" id="breathText">Ready</text>
+    <svg width="200" height="200">
+      <circle class="breath-bg" cx="100" cy="100" r="90"></circle>
+      <circle class="breath-ring" cx="100" cy="100" r="90"></circle>
     </svg>
 
-    <label><input type="checkbox" id="hapticsToggle" checked> Haptics</label>
-    <button id="breathToggleBtn"><i class="fa-solid fa-play"></i> Start</button>
+    <p id="breathText">Ready</p>
+
+    <label>
+      Duration per phase (seconds)
+      <select id="preset">
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+      </select>
+    </label>
+
+    <div class="controls">
+      <button id="breathToggleBtn"><i class="fa-solid fa-play"></i> Start</button>
+    </div>
+
+    <p>Track sessions for progress!</p>
   </section>
 </main>
 
 <footer class="nav-footer">
-  <a href="breathing.html"><i class="fa-solid fa-lungs"></i></a>
+  <a href="breathing.html" class="active"><i class="fa-solid fa-lungs"></i></a>
   <a href="meditation.html"><i class="fa-solid fa-spa"></i></a>
-    <a href="index.html" class="active"><i class="fa-solid fa-user"></i></a>
+  <a href="index.html"><i class="fa-solid fa-user"></i></a>
   <a href="progress.html"><i class="fa-solid fa-chart-line"></i></a>
   <a href="journal.html"><i class="fa-solid fa-book"></i></a>
 </footer>
 
 <script src="app.js"></script>
 <script>
-if ('serviceWorker' in navigator) {
+if('serviceWorker' in navigator){
   navigator.serviceWorker.register('./service-worker.js')
-    .then(() => console.log('Service Worker registered and ready for offline'))
-    .catch(err => console.log('Service Worker registration failed:', err));
-} 
+    .then(()=>console.log('Service Worker ready offline'))
+    .catch(err=>console.log('SW registration failed:',err));
+}
+
+/* Add session logging for breathing */
+function logBreathingSession() {
+  const today = new Date().toDateString();
+  let log = JSON.parse(localStorage.getItem("breathing-sessions")||"[]");
+  log.push({date: today, duration: parseInt($("preset").value) * 4}); // approximate minutes
+  localStorage.setItem("breathing-sessions", JSON.stringify(log));
+}
+
+/* Hook into startBreathing from app.js */
+const originalStartBreathing = window.startBreathing;
+window.startBreathing = function() {
+  logBreathingSession();
+  originalStartBreathing();
+};
 </script>
+
 </body>
 </html>
