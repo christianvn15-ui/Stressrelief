@@ -1,18 +1,14 @@
 /* ================= SAFE HELPERS ================= */
-function $(id) {
-  return document.getElementById(id);
-}
+function $(id) { return document.getElementById(id); }
 
 /* ================= PROFILE & AVATAR ================= */
 document.addEventListener("DOMContentLoaded", () => {
-
   const loginSection = $("loginSection");
   const profileSection = $("profileSection");
   const avatarDisplay = $("avatarDisplay");
   const avatarInput = $("avatarInput");
   const saveBtn = $("saveProfileBtn");
   const logoutBtn = $("logoutBtn");
-
   let avatarData = "";
 
   avatarInput?.addEventListener("change", e => {
@@ -25,7 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function loadProfile() {
     const profile = JSON.parse(localStorage.getItem("profile") || "null");
-
     if (!profile || !profile.name) {
       loginSection?.classList.remove("hidden");
       profileSection?.classList.add("hidden");
@@ -36,14 +31,11 @@ document.addEventListener("DOMContentLoaded", () => {
     profileSection?.classList.remove("hidden");
 
     $("welcomeText") && ($("welcomeText").textContent = `Welcome, ${profile.name}`);
-    $("profileInfo") && ($("profileInfo").textContent =
-      `${profile.email || ""} • Born ${profile.dob || ""}`);
-
+    $("profileInfo") && ($("profileInfo").textContent = `${profile.email || ""} • Born ${profile.dob || ""}`);
     if (avatarDisplay && profile.avatar) {
       avatarDisplay.src = profile.avatar;
       avatarDisplay.classList.remove("hidden");
     }
-
     const log = JSON.parse(localStorage.getItem("usage") || "[]");
     $("streakInfo") && ($("streakInfo").textContent = `Days practiced: ${log.length}`);
   }
@@ -70,56 +62,45 @@ document.addEventListener("DOMContentLoaded", () => {
 /* ================= THEME ================= */
 function toggleTheme() {
   document.body.classList.toggle("dark");
-  localStorage.setItem("theme",
-    document.body.classList.contains("dark") ? "dark" : "light");
+  localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
 }
-if (localStorage.getItem("theme") === "dark") {
-  document.body.classList.add("dark");
-}
+if (localStorage.getItem("theme") === "dark") document.body.classList.add("dark");
 
 /* ================= USAGE TRACK ================= */
-function recordUsage() {
+function recordUsage(mode="general") {
   const today = new Date().toDateString();
-  let log = JSON.parse(localStorage.getItem("usage") || "[]");
-  if (!log.includes(today)) log.push(today);
-  localStorage.setItem("usage", JSON.stringify(log));
+  const key = `${mode}-sessions`;
+  let log = JSON.parse(localStorage.getItem(key) || "[]");
+  log.push({date: today, timestamp: Date.now()});
+  localStorage.setItem(key, JSON.stringify(log));
 }
 
 /* ================= BREATHING ================= */
-let breathingInterval, breathingTimeout;
-let breathingPhase = 0;
-let breathingRunning = false;
-
-const phases = ["Inhale", "Hold", "Exhale", "Hold"];
+let breathingInterval, breathingTimeout, breathingPhase = 0, breathingRunning = false;
+const phases = ["Inhale","Hold","Exhale","Hold"];
 const ring = document.querySelector(".breath-ring");
 const breathText = $("breathText");
 const toggleBtn = $("breathToggleBtn");
-
 let breathDuration = 4000;
 
-$("preset")?.addEventListener("change", e => {
-  breathDuration = parseInt(e.target.value) * 1000;
-});
-
-toggleBtn?.addEventListener("click", () => {
-  breathingRunning ? stopBreathing() : startBreathing();
-});
+$("preset")?.addEventListener("change", e => { breathDuration = parseInt(e.target.value)*1000; });
+toggleBtn?.addEventListener("click", ()=>{ breathingRunning ? stopBreathing() : startBreathing(); });
 
 function startBreathing() {
-  recordUsage();
+  recordUsage("breathing");
   breathingRunning = true;
   breathingPhase = 0;
   toggleBtn.innerHTML = `<i class="fa-solid fa-stop"></i>`;
   breathingInterval = setInterval(runBreathPhase, breathDuration);
-  breathingTimeout = setTimeout(stopBreathing, 2 * 60000);
+  breathingTimeout = setTimeout(stopBreathing, 2*60000);
   runBreathPhase();
 }
 
 function runBreathPhase() {
   if (!breathText) return;
   breathText.textContent = phases[breathingPhase];
-  ring && (ring.style.strokeDashoffset = breathingPhase % 2 === 0 ? 0 : 565);
-  breathingPhase = (breathingPhase + 1) % phases.length;
+  ring && (ring.style.strokeDashoffset = breathingPhase%2===0?0:565);
+  breathingPhase = (breathingPhase+1)%phases.length;
 }
 
 function stopBreathing() {
@@ -132,106 +113,94 @@ function stopBreathing() {
 }
 
 /* ================= AUDIO FADE ================= */
-function fadeIn(audio, max = 0.5) {
-  audio.volume = 0;
+function fadeIn(audio,max=0.5){
+  audio.currentTime=0;
+  audio.volume=0;
   audio.play();
-  const i = setInterval(() => {
-    audio.volume = Math.min(audio.volume + 0.02, max);
-    if (audio.volume >= max) clearInterval(i);
-  }, 50);
+  const i = setInterval(()=>{
+    audio.volume = Math.min(audio.volume+0.02,max);
+    if(audio.volume>=max) clearInterval(i);
+  },50);
 }
 
-function fadeOut(audio) {
-  const i = setInterval(() => {
-    audio.volume = Math.max(audio.volume - 0.02, 0);
-    if (audio.volume === 0) {
-      audio.pause();
-      clearInterval(i);
-    }
-  }, 50);
+function fadeOut(audio){
+  const i = setInterval(()=>{
+    audio.volume = Math.max(audio.volume-0.02,0);
+    if(audio.volume===0){ audio.pause(); clearInterval(i); }
+  },50);
 }
 
 /* ================= MEDITATION / FOCUS / SLEEP ================= */
 let meditationTimer;
 
-function startSession(type) {
-  recordUsage();
-
+function startSession(type){
+  recordUsage(type);
   const timeInput = $(`${type}Time`);
   const audio = $(`${type}Audio`);
-  const display = $("timerDisplay");
-  const text = $("guidedText");
+  const display = $(`${type}Timer`);
+  const text = $(`${type}Text`);
+  if(!timeInput||!audio||!display) return;
 
-  if (!timeInput || !audio || !display) return;
-
-  let sec = parseInt(timeInput.value || 5) * 60;
+  let sec = parseInt(timeInput.value||5)*60;
   fadeIn(audio);
 
   text && (text.textContent =
-    type === "sleep" ? "Let go and rest." :
-    type === "focus" ? "Stay gently focused." :
+    type==="sleep"?"Let go and rest.":
+    type==="focus"?"Stay gently focused.":
     "Notice your breath.");
 
-  meditationTimer = setInterval(() => {
+  meditationTimer = setInterval(()=>{
     sec--;
-    display.textContent =
-      `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, "0")}`;
-    if (sec <= 0) stopSession(type);
-  }, 1000);
+    display.textContent = `${Math.floor(sec/60)}:${String(sec%60).padStart(2,"0")}`;
+    if(sec<=0) stopSession(type);
+  },1000);
 }
 
-function stopSession(type) {
+function stopSession(type){
   clearInterval(meditationTimer);
   const audio = $(`${type}Audio`);
   audio && fadeOut(audio);
 }
 
-/* Bind buttons */
-window.startMeditation = () => startSession("meditation");
-window.stopMeditation = () => stopSession("meditation");
-window.startFocus = () => startSession("focus");
-window.stopFocus = () => stopSession("focus");
-window.startSleep = () => startSession("sleep");
-window.stopSleep = () => stopSession("sleep");
+/* Bind session buttons */
+window.startMeditation = ()=>startSession("meditation");
+window.stopMeditation = ()=>stopSession("meditation");
+window.startFocus = ()=>startSession("focus");
+window.stopFocus = ()=>stopSession("focus");
+window.startSleep = ()=>startSession("sleep");
+window.stopSleep = ()=>stopSession("sleep");
 
 /* ================= JOURNAL ================= */
 const journalText = $("journalText");
 const journalStatus = $("journalStatus");
-
-journalText && (journalText.value = localStorage.getItem("journal") || "");
-
-window.saveJournal = function () {
-  localStorage.setItem("journal", journalText.value);
-  journalStatus.textContent = "Saved ✓";
+journalText && (journalText.value = localStorage.getItem("journal")||"");
+window.saveJournal = function(){
+  localStorage.setItem("journal",journalText.value);
+  journalStatus.textContent="Saved ✓";
 };
 
 /* ================= MOOD ================= */
-window.setMood = function (value) {
+window.setMood = function(value){
   const today = new Date().toDateString();
-  let moods = JSON.parse(localStorage.getItem("moods") || "{}");
+  let moods = JSON.parse(localStorage.getItem("moods")||"{}");
   moods[today] = value;
-  localStorage.setItem("moods", JSON.stringify(moods));
+  localStorage.setItem("moods",JSON.stringify(moods));
   drawMoodGraph();
 };
 
-function drawMoodGraph() {
+function drawMoodGraph(){
   const svg = $("moodGraph");
-  if (!svg) return;
-
-  const moods = Object.values(JSON.parse(localStorage.getItem("moods") || "{}"));
-  if (!moods.length) return;
-
-  const points = moods.map((v, i) =>
-    `${i * (300 / Math.max(moods.length - 1, 1))},${150 - v * 25}`
-  ).join(" ");
-
+  if(!svg) return;
+  const moods = Object.values(JSON.parse(localStorage.getItem("moods")||"{}"));
+  if(!moods.length) return;
+  const points = moods.map((v,i)=>`${i*(300/Math.max(moods.length-1,1))},${150-v*25}`).join(" ");
   svg.innerHTML = `<polyline points="${points}" />`;
 }
 drawMoodGraph();
 
 /* ================= BACKUP ================= */
-window.exportData = function () {
-  const blob = new Blob([JSON.stringify(localStorage)], { type: "application/json" });
+window.exportData = function(){
+  const blob = new Blob([JSON.stringify(localStorage)],{type:"application/json"});
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
   a.download = "calmspace-backup.json";
@@ -242,13 +211,13 @@ window.exportData = function () {
 let deferredPrompt;
 const installBtn = $("installBtn");
 
-window.addEventListener("beforeinstallprompt", e => {
+window.addEventListener("beforeinstallprompt", e=>{
   e.preventDefault();
   deferredPrompt = e;
   installBtn?.classList.remove("hidden");
 });
 
-installBtn?.addEventListener("click", async () => {
+installBtn?.addEventListener("click", async ()=>{
   deferredPrompt.prompt();
   await deferredPrompt.userChoice;
   installBtn.classList.add("hidden");
