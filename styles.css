@@ -1,3 +1,5 @@
+
+/ ================= Base ================= /
 :root {
   --bg: #f4fbfa;
   --card: #ffffff;
@@ -19,6 +21,7 @@ body {
   text-align: center;
 }
 
+/ Header /
 header, .profile-header {
   background: var(--card);
   padding: 1rem;
@@ -28,6 +31,7 @@ header, .profile-header {
   gap: 1rem;
 }
 
+/ Avatar /
 .avatar {
   width: 56px;
   height: 56px;
@@ -36,9 +40,21 @@ header, .profile-header {
   border: 2px solid var(--accent);
 }
 
-main { padding: 1.5rem; padding-bottom: 6rem; }
-.center-page { min-height: calc(100vh - 140px); display:flex; flex-direction:column; justify-content:center; align-items:center; }
+/ Main layout /
+main {
+  padding: 1.5rem;
+  padding-bottom: 6rem;
+}
 
+.center-page {
+  min-height: calc(100vh - 140px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/ Card styling /
 .card {
   background: var(--card);
   width: 90%;
@@ -49,23 +65,66 @@ main { padding: 1.5rem; padding-bottom: 6rem; }
   margin-bottom: 10px;
 }
 
-label { display:block; margin:1rem auto; }
+/ Inputs & buttons /
+label {
+  display: block;
+  margin: 1rem auto;
+}
 input, textarea, select {
-  width: 90%; padding:0.7rem; border-radius:12px; border:1px solid #ccc;
+  width: 90%;
+  padding: 0.7rem;
+  border-radius: 12px;
+  border: 1px solid #ccc;
 }
-textarea { height:150px; }
+textarea {
+  height: 150px;
+}
 button {
-  padding:0.7rem 1.4rem; border-radius:20px; border:none;
-  background:var(--accent); color:white; cursor:pointer;
-  transition:transform 0.2s ease; margin-bottom:10px;
+  padding: 0.7rem 1.4rem;
+  border-radius: 20px;
+  border: none;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  margin-bottom: 10px;
 }
-button:hover { transform:scale(1.05); }
+button:hover {
+  transform: scale(1.05);
+}
 
-.avatar-upload { cursor:pointer; font-weight:600; color:var(--accent); }
+/ Avatar upload label /
+.avatar-upload {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--accent);
+}
 
-.breath-bg { fill:none; stroke:#dfeeee; stroke-width:12; }
-.breath-ring { fill:none; stroke:var(--accent); stroke-width:12; stroke-dasharray:565; stroke-dashoffset:565; transition:stroke-dashoffset 4s linear, stroke 0.5s ease; }
-.breath-ring.active { filter:drop-shadow(0 0 8px var(--accent)); }
+/ Breathing circle /
+.breath-bg {
+  fill: none;
+  stroke: #dfeeee;
+  stroke-width: 12;
+}
+.breath-ring {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 12;
+  stroke-dasharray: 565;
+  stroke-dashoffset: 565;
+  transition: stroke-dashoffset 4s linear;
+}
+
+/ Bottom navigation /
+.nav-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: var(--card);
+  display: flex;
+  justify-content: space-around;
+  padding: 0.6rem 0;
+}
 
 .nav-footer a {
   width: 52px;
@@ -88,7 +147,7 @@ button:hover { transform:scale(1.05); }
   box-shadow: 0 8px 20px rgba(120,183,176,0.45);
 }
 
-/* Mood tracking */
+/ Mood tracking /
 .mood-row {
   display: flex;
   justify-content: space-around;
@@ -101,33 +160,15 @@ button:hover { transform:scale(1.05); }
   cursor: pointer;
 }
 
-/* Mood graph */
-#moodGraph polyline {
+/ Mood graph /
+
+moodGraph polyline {
   fill: none;
   stroke: var(--accent);
   stroke-width: 3;
-  stroke-linecap: round;
-  stroke-linejoin: round;
 }
 
-/* Toast feedback */
-.toast {
-  position: fixed;
-  bottom: 80px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--accent);
-  color: white;
-  padding: 0.8rem 1.2rem;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-  animation: fadeInOut 3s ease;
+/ Hidden elements /
+.hidden {
+  display: none;
 }
-@keyframes fadeInOut {
-  0% {opacity:0; transform:translate(-50%,20px);}
-  10%,90% {opacity:1; transform:translate(-50%,0);}
-  100% {opacity:0; transform:translate(-50%,20px);}
-}
-
-/* Hidden elements */
-.hidden { display: none; }
