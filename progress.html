@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,58 +7,63 @@
 <title>Progress • CalmSpace</title>
 
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet"
- href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#a2d5c6">
 <link rel="icon" href="icons/icon-192.png">
 </head>
 
 <body>
+
 <header>
-  <h2>Your Progress</h2>
+  <h2>Progress & Analytics</h2>
 </header>
 
 <main class="center-page">
   <section class="card">
-    <h3>Daily Mood</h3>
-    <div class="mood-row">
-      <button onclick="setMood(1)">😞</button>
-      <button onclick="setMood(2)">😕</button>
-      <button onclick="setMood(3)">😐</button>
-      <button onclick="setMood(4)">🙂</button>
-      <button onclick="setMood(5)">😊</button>
-    </div>
-    <p id="moodStatus"></p>
+    <h3>Session Analytics</h3>
+    <ul>
+      <li>Meditation sessions: <span id="meditationCount">0</span></li>
+      <li>Focus sessions: <span id="focusCount">0</span></li>
+      <li>Sleep sessions: <span id="sleepCount">0</span></li>
+    </ul>
   </section>
 
   <section class="card">
-    <h3>Mood Over Time</h3>
+    <h3>Mood Graph</h3>
     <svg id="moodGraph" width="300" height="150"></svg>
   </section>
 
   <section class="card">
-    <button onclick="exportPDF()">
-      <i class="fa-solid fa-file-pdf"></i> Export Progress PDF
-    </button>
+    <h3>Export Data</h3>
+    <button onclick="exportData()"><i class="fa-solid fa-download"></i> Export Backup</button>
   </section>
 </main>
 
 <footer class="nav-footer">
   <a href="breathing.html"><i class="fa-solid fa-lungs"></i></a>
   <a href="meditation.html"><i class="fa-solid fa-spa"></i></a>
-    <a href="index.html" class="active"><i class="fa-solid fa-user"></i></a>
-  <a href="progress.html"><i class="fa-solid fa-chart-line"></i></a>
+  <a href="index.html"><i class="fa-solid fa-user"></i></a>
+  <a href="progress.html" class="active"><i class="fa-solid fa-chart-line"></i></a>
   <a href="journal.html"><i class="fa-solid fa-book"></i></a>
 </footer>
 
 <script src="app.js"></script>
 <script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./service-worker.js')
-    .then(() => console.log('Service Worker registered and ready for offline'))
-    .catch(err => console.log('Service Worker registration failed:', err));
-} 
+function updateProgress() {
+  const medLog = JSON.parse(localStorage.getItem("meditation-sessions")||"[]");
+  const focusLog = JSON.parse(localStorage.getItem("focus-sessions")||"[]");
+  const sleepLog = JSON.parse(localStorage.getItem("sleep-sessions")||"[]");
+
+  $("meditationCount").textContent = medLog.length;
+  $("focusCount").textContent = focusLog.length;
+  $("sleepCount").textContent = sleepLog.length;
+}
+
+// Draw mood graph using app.js function
+drawMoodGraph();
+updateProgress();
 </script>
+
 </body>
 </html>
