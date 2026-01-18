@@ -30,6 +30,8 @@
       <option value="6">Focus (6-6-6-6)</option>
     </select>
 
+    <label>Minutes <input id="breathMinutes" type="number" value="2" min="1"></label>
+
     <svg width="220" height="220">
       <circle cx="110" cy="110" r="90" class="breath-bg"/>
       <circle cx="110" cy="110" r="90" class="breath-ring"/>
@@ -42,20 +44,13 @@
 </main>
 
 <footer class="nav-footer">
-  <a href="breathing.html"><i class="fa-solid fa-lungs"></i></a>
+  <a href="breathing.html" class="active"><i class="fa-solid fa-lungs"></i></a>
   <a href="meditation.html"><i class="fa-solid fa-spa"></i></a>
-    <a href="index.html" class="active"><i class="fa-solid fa-user"></i></a>
+  <a href="index.html"><i class="fa-solid fa-user"></i></a>
   <a href="progress.html"><i class="fa-solid fa-chart-line"></i></a>
   <a href="journal.html"><i class="fa-solid fa-book"></i></a>
 </footer>
 
 <script src="app.js"></script>
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./service-worker.js')
-    .then(() => console.log('Service Worker registered and ready for offline'))
-    .catch(err => console.log('Service Worker registration failed:', err));
-} 
-</script>
 </body>
 </html>
