@@ -258,3 +258,30 @@ function exportPDF() {
   `);
   win.print();
 }
+
+/* ================= PWA INSTALL ================= */
+let deferredPrompt;
+const installBtn = document.getElementById("installBtn");
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault(); // Prevent automatic prompt
+  deferredPrompt = e;
+  if (installBtn) installBtn.classList.remove("hidden"); // show button
+});
+
+installBtn?.addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt(); // show prompt
+  const { outcome } = await deferredPrompt.userChoice;
+  if (outcome === 'accepted') {
+    console.log('User accepted the install prompt');
+  } else {
+    console.log('User dismissed the install prompt');
+  }
+  deferredPrompt = null;
+  installBtn.classList.add("hidden");
+});
+
+window.addEventListener('appinstalled', () => {
+  console.log('App installed successfully');
+});
