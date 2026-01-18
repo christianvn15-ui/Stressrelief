@@ -1,16 +1,22 @@
 {
-  "name": "CalmSpace – Stress Management",
+  "name": "CalmSpace",
   "short_name": "CalmSpace",
-  "start_url": "index.html",
-  "scope": "./",
+  "description": "A calming meditation and stress management app.",
+  "start_url": "./index.html",
   "display": "standalone",
+  "background_color": "#f0f4f8",
+  "theme_color": "#a2d5c6",
   "orientation": "portrait",
-  "background_color": "#f4fbfa",
-  "theme_color": "#78b7b0",
-
   "icons": [
-    { "src": "icon-192.png", "type": "image/png" },
-
-    { "src": "icon-512.png", "type": "image/png" }
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
   ]
 }
