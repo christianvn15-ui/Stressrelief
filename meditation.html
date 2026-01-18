@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,63 +16,103 @@
 </head>
 
 <body>
+
 <header>
   <h2>Meditation & Focus</h2>
 </header>
 
 <main class="center-page">
+
+  <!-- ================= MEDITATION ================= -->
   <section class="meditation-card">
-    <label>Time <input id="meditationTime" type="number" value="5" min="1"></label>
-    <button onclick="startMeditation()"><i class="fa-solid fa-play"></i> Start</button>
-    <button onclick="stopMeditation()"><i class="fa-solid fa-stop"></i> Stop</button>
-    
+    <h3>Meditation</h3>
 
-    <p id="timerDisplay">00:00</p>
+    <label>
+      Time (minutes)
+      <input id="meditationTime" type="number" value="5" min="1">
+    </label>
+
+    <div class="controls">
+      <button onclick="startMeditation()">
+        <i class="fa-solid fa-play"></i> Start
+      </button>
+      <button onclick="stopMeditation()">
+        <i class="fa-solid fa-stop"></i> Stop
+      </button>
+    </div>
+
+    <p id="timerDisplay">5:00</p>
     <p id="guidedText"></p>
 
-    <audio id="zenAudio" loop src="zen.mp3" volume="0"></audio>
+    <!-- Zen background audio -->
+    <audio id="zenAudio" loop src="zen.mp3"></audio>
   </section>
-  
-   <section class="focus-card">
-    <label>Time <input id="FocusTime" type="number" value="5" min="1"></label>
-    <button onclick="startFocus()"><i class="fa-solid fa-play"></i> Start</button>
-    <button onclick="stopFocus()"><i class="fa-solid fa-stop"></i> Stop</button>
-    
 
-    <p id="timerDisplay">00:00</p>
-    <p id="guidedText"></p>
+  <!-- ================= FOCUS (UI READY) ================= -->
+  <section class="focus-card">
+    <h3>Focus</h3>
 
-    <audio id="focusAudio" loop src="focus.mp3" volume="0"></audio>
+    <label>
+      Time (minutes)
+      <input id="focusTime" type="number" value="5" min="1">
+    </label>
+
+    <div class="controls">
+      <button disabled>
+        <i class="fa-solid fa-play"></i> Start
+      </button>
+      <button disabled>
+        <i class="fa-solid fa-stop"></i> Stop
+      </button>
+    </div>
+
+    <p class="muted">Focus mode coming soon</p>
+
+    <audio id="focusAudio" loop src="focus.mp3"></audio>
   </section>
-  
+
+  <!-- ================= SLEEP (UI READY) ================= -->
   <section class="sleep-card">
-    <label>Time <input id="sleepTime" type="number" value="5" min="1"></label>
-    <button onclick="startSleep()"><i class="fa-solid fa-play"></i> Start</button>
-    <button onclick="stopSleep()"><i class="fa-solid fa-stop"></i> Stop</button>
-    
+    <h3>Sleep</h3>
 
-    <p id="timerDisplay">00:00</p>
-    <p id="guidedText"></p>
+    <label>
+      Time (minutes)
+      <input id="sleepTime" type="number" value="10" min="1">
+    </label>
 
-    <audio id="sleepAudio" loop src="sleep.mp3" volume="0"></audio>
+    <div class="controls">
+      <button disabled>
+        <i class="fa-solid fa-play"></i> Start
+      </button>
+      <button disabled>
+        <i class="fa-solid fa-stop"></i> Stop
+      </button>
+    </div>
+
+    <p class="muted">Sleep mode coming soon</p>
+
+    <audio id="sleepAudio" loop src="sleep.mp3"></audio>
   </section>
+
 </main>
 
 <footer class="nav-footer">
   <a href="breathing.html"><i class="fa-solid fa-lungs"></i></a>
-  <a href="meditation.html"><i class="fa-solid fa-spa"></i></a>
+  <a href="meditation.html" class="active"><i class="fa-solid fa-spa"></i></a>
   <a href="index.html"><i class="fa-solid fa-user"></i></a>
   <a href="progress.html"><i class="fa-solid fa-chart-line"></i></a>
   <a href="journal.html"><i class="fa-solid fa-book"></i></a>
 </footer>
 
 <script src="app.js"></script>
+
 <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./service-worker.js')
     .then(() => console.log('Service Worker registered and ready for offline'))
     .catch(err => console.log('Service Worker registration failed:', err));
-} 
+}
 </script>
+
 </body>
 </html>
