@@ -154,48 +154,6 @@ function logSession(key) {
   localStorage.setItem(key, JSON.stringify(sessions));
 }
 
-/* ================= MEDITATION / FOCUS / SLEEP ================= */
-let meditationTimer;
-
-function startSession(type) {
-  logSession(`${type}-sessions`);
-  recordUsage();
-
-  const timeInput = $(`${type}Time`);
-  const audio = $(`${type}Audio`);
-  const display = $("timerDisplay");
-  const text = $("guidedText");
-  if (!timeInput || !audio || !display) return;
-
-  let sec = parseInt(timeInput.value || 5) * 60;
-  fadeIn(audio);
-
-  text && (text.textContent =
-    type === "sleep" ? "Let go and rest." :
-    type === "focus" ? "Stay gently focused." :
-    "Notice your breath.");
-
-  meditationTimer = setInterval(() => {
-    sec--;
-    display.textContent = `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2,"0")}`;
-    if (sec <= 0) stopSession(type);
-  }, 1000);
-}
-
-function stopSession(type) {
-  clearInterval(meditationTimer);
-  const audio = $(`${type}Audio`);
-  audio && fadeOut(audio);
-}
-
-/* Bind session buttons */
-window.startMeditation = () => startSession("meditation");
-window.stopMeditation = () => stopSession("meditation");
-window.startFocus = () => startSession("focus");
-window.stopFocus = () => stopSession("focus");
-window.startSleep = () => startSession("sleep");
-window.stopSleep = () => stopSession("sleep");
-
 /* ================= JOURNAL ================= */
 const journalText = $("journalText");
 const journalStatus = $("journalStatus");
