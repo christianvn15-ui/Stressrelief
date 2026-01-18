@@ -1,12 +1,10 @@
 {
   "name": "CalmSpace",
   "short_name": "CalmSpace",
-  "description": "A calming meditation and stress management app.",
-  "start_url": "./index.html",
+  "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#f0f4f8",
+  "background_color": "#f4fbfa",
   "theme_color": "#a2d5c6",
-  "orientation": "portrait",
   "icons": [
     {
       "src": "/icon-192.png",
@@ -16,7 +14,7 @@
     {
       "src": "/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
-}
