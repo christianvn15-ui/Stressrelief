@@ -26,14 +26,19 @@
   <!-- ================= MEDITATION ================= -->
   <section class="card meditation-card">
     <h3>Meditation</h3>
+
     <label>
       Time (minutes)
       <input id="meditationTime" type="number" value="5" min="1">
     </label>
 
     <div class="controls">
-      <button id="startMeditation"><i class="fa-solid fa-play"></i> Start</button>
-      <button id="stopMeditation"><i class="fa-solid fa-stop"></i> Stop</button>
+      <button onclick="startMeditation()">
+        <i class="fa-solid fa-play"></i> Start
+      </button>
+      <button onclick="stopMeditation()">
+        <i class="fa-solid fa-stop"></i> Stop
+      </button>
     </div>
 
     <p id="meditationTimer">05:00</p>
@@ -45,14 +50,19 @@
   <!-- ================= FOCUS ================= -->
   <section class="card focus-card">
     <h3>Focus</h3>
+
     <label>
       Time (minutes)
       <input id="focusTime" type="number" value="5" min="1">
     </label>
 
     <div class="controls">
-      <button id="startFocus"><i class="fa-solid fa-play"></i> Start</button>
-      <button id="stopFocus"><i class="fa-solid fa-stop"></i> Stop</button>
+      <button onclick="startFocus()">
+        <i class="fa-solid fa-play"></i> Start
+      </button>
+      <button onclick="stopFocus()">
+        <i class="fa-solid fa-stop"></i> Stop
+      </button>
     </div>
 
     <p id="focusTimer">05:00</p>
@@ -64,14 +74,19 @@
   <!-- ================= SLEEP ================= -->
   <section class="card sleep-card">
     <h3>Sleep</h3>
+
     <label>
       Time (minutes)
       <input id="sleepTime" type="number" value="10" min="1">
     </label>
 
     <div class="controls">
-      <button id="startSleep"><i class="fa-solid fa-play"></i> Start</button>
-      <button id="stopSleep"><i class="fa-solid fa-stop"></i> Stop</button>
+      <button onclick="startSleep()">
+        <i class="fa-solid fa-play"></i> Start
+      </button>
+      <button onclick="stopSleep()">
+        <i class="fa-solid fa-stop"></i> Stop
+      </button>
     </div>
 
     <p id="sleepTimer">10:00</p>
@@ -90,7 +105,11 @@
   <a href="journal.html"><i class="fa-solid fa-book"></i></a>
 </footer>
 
+<!-- Core app logic -->
+<script src="app.js"></script>
+<!-- Meditation / Focus / Sleep logic -->
 <script src="meditation.js"></script>
+
 <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./service-worker.js')
@@ -98,5 +117,6 @@ if ('serviceWorker' in navigator) {
     .catch(err => console.log('Service Worker registration failed:', err));
 }
 </script>
+
 </body>
 </html>
