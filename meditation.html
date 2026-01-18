@@ -7,7 +7,9 @@
 <title>Zen Modes • CalmSpace</title>
 
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet"
+ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#a2d5c6">
 <link rel="icon" href="icons/icon-192.png">
@@ -22,47 +24,74 @@
 <main class="center-page">
 
   <!-- ================= MEDITATION ================= -->
-  <section class="card">
+  <section class="card meditation-card">
     <h3>Meditation</h3>
+
     <label>
-      Minutes <input id="meditationTime" type="number" value="5" min="1">
+      Time (minutes)
+      <input id="meditationTime" type="number" value="5" min="1">
     </label>
+
     <div class="controls">
-      <button onclick="startMeditation()"><i class="fa-solid fa-play"></i> Start</button>
-      <button onclick="stopMeditation()"><i class="fa-solid fa-stop"></i> Stop</button>
+      <button onclick="startMeditation()">
+        <i class="fa-solid fa-play"></i> Start
+      </button>
+      <button onclick="stopMeditation()">
+        <i class="fa-solid fa-stop"></i> Stop
+      </button>
     </div>
-    <p id="meditationTimer">05:00</p>
-    <p id="meditationText"></p>
+
+    <p id="timerDisplay">05:00</p>
+    <p id="guidedText"></p>
+
     <audio id="meditationAudio" loop src="zen.mp3"></audio>
   </section>
 
   <!-- ================= FOCUS ================= -->
-  <section class="card">
+  <section class="card focus-card">
     <h3>Focus</h3>
+
     <label>
-      Minutes <input id="focusTime" type="number" value="5" min="1">
+      Time (minutes)
+      <input id="focusTime" type="number" value="5" min="1">
     </label>
+
     <div class="controls">
-      <button onclick="startFocus()"><i class="fa-solid fa-play"></i> Start</button>
-      <button onclick="stopFocus()"><i class="fa-solid fa-stop"></i> Stop</button>
+      <button onclick="startFocus()">
+        <i class="fa-solid fa-play"></i> Start
+      </button>
+      <button onclick="stopFocus()">
+        <i class="fa-solid fa-stop"></i> Stop
+      </button>
     </div>
+
     <p id="focusTimer">05:00</p>
     <p id="focusText"></p>
+
     <audio id="focusAudio" loop src="focus.mp3"></audio>
   </section>
 
   <!-- ================= SLEEP ================= -->
-  <section class="card">
+  <section class="card sleep-card">
     <h3>Sleep</h3>
+
     <label>
-      Minutes <input id="sleepTime" type="number" value="10" min="1">
+      Time (minutes)
+      <input id="sleepTime" type="number" value="10" min="1">
     </label>
+
     <div class="controls">
-      <button onclick="startSleep()"><i class="fa-solid fa-play"></i> Start</button>
-      <button onclick="stopSleep()"><i class="fa-solid fa-stop"></i> Stop</button>
+      <button onclick="startSleep()">
+        <i class="fa-solid fa-play"></i> Start
+      </button>
+      <button onclick="stopSleep()">
+        <i class="fa-solid fa-stop"></i> Stop
+      </button>
     </div>
+
     <p id="sleepTimer">10:00</p>
     <p id="sleepText"></p>
+
     <audio id="sleepAudio" loop src="sleep.mp3"></audio>
   </section>
 
@@ -77,12 +106,61 @@
 </footer>
 
 <script src="app.js"></script>
+
 <script>
-if('serviceWorker' in navigator){
+if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./service-worker.js')
-    .then(()=>console.log('Service Worker registered for offline'))
-    .catch(err=>console.log('SW registration failed:',err));
+    .then(() => console.log('Service Worker registered and ready for offline'))
+    .catch(err => console.log('Service Worker registration failed:', err));
 }
 </script>
+
+<script>
+/* ================= OVERRIDE DISPLAY IDS FOR MULTI-TIMERS ================= */
+window.startMeditation = () => startSession("meditation");
+window.stopMeditation = () => stopSession("meditation");
+window.startFocus = () => startSession("focus");
+window.stopFocus = () => stopSession("focus");
+window.startSleep = () => startSession("sleep");
+window.stopSleep = () => stopSession("sleep");
+
+/* Update timer displays dynamically per type */
+function startSession(type) {
+  logSession(`${type}-sessions`);
+  recordUsage();
+
+  const timeInput = document.getElementById(`${type}Time`);
+  const audio = document.getElementById(`${type}Audio`);
+  const display = document.getElementById(`${type}Timer`);
+  const text = document.getElementById(`${type}Text`);
+  if (!timeInput || !audio || !display) return;
+
+  let sec = parseInt(timeInput.value || 5) * 60;
+  fadeIn(audio);
+
+  text && (text.textContent =
+    type === "sleep" ? "Let go and rest." :
+    type === "focus" ? "Stay gently focused." :
+    "Notice your breath.");
+
+  if (window[`${type}TimerInterval`]) clearInterval(window[`${type}TimerInterval`]);
+  window[`${type}TimerInterval`] = setInterval(() => {
+    sec--;
+    display.textContent = `${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')}`;
+    if (sec <= 0) stopSession(type);
+  }, 1000);
+}
+
+function stopSession(type) {
+  const audio = document.getElementById(`${type}Audio`);
+  audio && fadeOut(audio);
+  if (window[`${type}TimerInterval`]) clearInterval(window[`${type}TimerInterval`]);
+  const display = document.getElementById(`${type}Timer`);
+  const text = document.getElementById(`${type}Text`);
+  if (display) display.textContent = "Complete";
+  if (text) text.textContent = "";
+}
+</script>
+
 </body>
 </html>
