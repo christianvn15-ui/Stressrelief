@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Meditation • CalmSpace</title>
+<title>Zen Modes • CalmSpace</title>
 
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet"
@@ -18,25 +18,50 @@
 
 <body>
 <header>
-  <h2>Meditation</h2>
+  <h2>Meditation & Focus</h2>
 </header>
 
 <main class="center-page">
-  <section class="card">
-    <label>Minutes <input id="meditationTime" type="number" value="5" min="1"></label>
+  <section class="meditation-card">
+    <label>Time <input id="meditationTime" type="number" value="5" min="1"></label>
     <button onclick="startMeditation()"><i class="fa-solid fa-play"></i> Start</button>
     <button onclick="stopMeditation()"><i class="fa-solid fa-stop"></i> Stop</button>
+    
 
     <p id="timerDisplay">00:00</p>
     <p id="guidedText"></p>
 
     <audio id="zenAudio" loop src="zen.mp3" volume="0"></audio>
   </section>
+  
+   <section class="focus-card">
+    <label>Time <input id="FocusTime" type="number" value="5" min="1"></label>
+    <button onclick="startFocus()"><i class="fa-solid fa-play"></i> Start</button>
+    <button onclick="stopFocus()"><i class="fa-solid fa-stop"></i> Stop</button>
+    
+
+    <p id="timerDisplay">00:00</p>
+    <p id="guidedText"></p>
+
+    <audio id="focusAudio" loop src="focus.mp3" volume="0"></audio>
+  </section>
+  
+  <section class="sleep-card">
+    <label>Time <input id="sleepTime" type="number" value="5" min="1"></label>
+    <button onclick="startSleep()"><i class="fa-solid fa-play"></i> Start</button>
+    <button onclick="stopSleep()"><i class="fa-solid fa-stop"></i> Stop</button>
+    
+
+    <p id="timerDisplay">00:00</p>
+    <p id="guidedText"></p>
+
+    <audio id="sleepAudio" loop src="sleep.mp3" volume="0"></audio>
+  </section>
 </main>
 
 <footer class="nav-footer">
   <a href="breathing.html"><i class="fa-solid fa-lungs"></i></a>
-  <a href="meditation.html" class="active"><i class="fa-solid fa-spa"></i></a>
+  <a href="meditation.html"><i class="fa-solid fa-spa"></i></a>
   <a href="index.html"><i class="fa-solid fa-user"></i></a>
   <a href="progress.html"><i class="fa-solid fa-chart-line"></i></a>
   <a href="journal.html"><i class="fa-solid fa-book"></i></a>
