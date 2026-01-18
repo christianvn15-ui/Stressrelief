@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Journal • CalmSpace</title>
+
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet"
+ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+<header>
+  <h2>Journal</h2>
+</header>
+
+<main class="center-page">
+  <section class="card">
+    <textarea id="journalText" placeholder="Write freely..."></textarea>
+
+    <button onclick="saveJournal()">
+      <i class="fa-solid fa-floppy-disk"></i> Save
+    </button>
+
+    <p id="journalStatus"></p>
+  </section>
+</main>
+
+<footer class="nav-footer">
+  <a href="breathing.html"><i class="fa-solid fa-lungs"></i></a>
+  <a href="meditation.html"><i class="fa-solid fa-spa"></i></a>
+    <a href="index.html" class="active"><i class="fa-solid fa-user"></i></a>
+  <a href="progress.html"><i class="fa-solid fa-chart-line"></i></a>
+  <a href="journal.html"><i class="fa-solid fa-book"></i></a>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

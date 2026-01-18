@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Profile • CalmSpace</title>
+
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet"
+ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+<header class="profile-header">
+  <img id="avatarDisplay" class="avatar hidden">
+  <div>
+    <h1>CalmSpace</h1>
+    <p id="welcomeText"></p>
+  </div>
+</header>
+
+<main class="center-page">
+  <section id="loginSection" class="card">
+    <h2>Your Profile</h2>
+
+    <label>Email <input id="email" type="email"></label>
+    <label>Name <input id="name" type="text"></label>
+    <label>Date of Birth <input id="dob" type="date"></label>
+
+    <label class="avatar-upload">
+      <i class="fa-solid fa-camera"></i> Upload Avatar
+      <input id="avatarInput" type="file" accept="image/*" hidden>
+    </label>
+
+    <button id="saveProfileBtn">
+      <i class="fa-solid fa-floppy-disk"></i> Save & Continue
+    </button>
+  </section>
+
+  <section id="profileSection" class="card hidden">
+    <h2>Your Settings</h2>
+
+    <button onclick="toggleTheme()">
+      <i class="fa-solid fa-moon"></i> Toggle Dark Mode
+    </button>
+    <br>
+    <button onclick="exportData()">
+      <i class="fa-solid fa-download"></i> Backup Data
+    </button>
+    <br>
+    <label class="avatar-upload">
+      <i class="fa-solid fa-upload"></i> Restore Data
+      <input type="file" accept=".json" onchange="importData(event)" hidden>
+    </label>
+
+    <p id="profileInfo"></p>
+    <p id="streakInfo"></p>
+
+    <button id="logoutBtn">
+      <i class="fa-solid fa-right-from-bracket"></i> Log out
+    </button>
+  </section>
+</main>
+
+<footer class="nav-footer">
+  <a href="breathing.html"><i class="fa-solid fa-lungs"></i></a>
+  <a href="meditation.html"><i class="fa-solid fa-spa"></i></a>
+  <a href="index.html" class="active"><i class="fa-solid fa-user"></i></a>
+  <a href="progress.html"><i class="fa-solid fa-chart-line"></i></a>
+  <a href="journal.html"><i class="fa-solid fa-book"></i></a>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

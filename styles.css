@@ -1,0 +1,172 @@
+/* ================= Base ================= */
+:root {
+  --bg: #f4fbfa;
+  --card: #ffffff;
+  --text: #2f4f4f;
+  --accent: #78b7b0;
+}
+
+body.dark {
+  --bg: #0f1f1f;
+  --card: #1e2e2e;
+  --text: #e0f2f1;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui;
+  background: var(--bg);
+  color: var(--text);
+  text-align: center;
+}
+
+/* Header */
+header, .profile-header {
+  background: var(--card);
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Avatar */
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent);
+}
+
+/* Main layout */
+main {
+  padding: 1.5rem;
+  padding-bottom: 6rem;
+}
+
+.center-page {
+  min-height: calc(100vh - 140px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Card styling */
+.card {
+  background: var(--card);
+  width: 90%;
+  max-width: 380px;
+  padding: 1.5rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  margin-bottom: 10px;
+}
+
+/* Inputs & buttons */
+label {
+  display: block;
+  margin: 1rem auto;
+}
+input, textarea, select {
+  width: 90%;
+  padding: 0.7rem;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+}
+textarea {
+  height: 150px;
+}
+button {
+  padding: 0.7rem 1.4rem;
+  border-radius: 20px;
+  border: none;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  margin-bottom: 10px;
+}
+button:hover {
+  transform: scale(1.05);
+}
+
+/* Avatar upload label */
+.avatar-upload {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* Breathing circle */
+.breath-bg {
+  fill: none;
+  stroke: #dfeeee;
+  stroke-width: 12;
+}
+.breath-ring {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 12;
+  stroke-dasharray: 565;
+  stroke-dashoffset: 565;
+  transition: stroke-dashoffset 4s linear;
+}
+
+/* Bottom navigation */
+.nav-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: var(--card);
+  display: flex;
+  justify-content: space-around;
+  padding: 0.6rem 0;
+}
+
+.nav-footer a {
+  width: 52px;
+  height: 52px;
+  background: transparent;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.nav-footer a.active {
+  transform: scale(1.3);
+  background: var(--accent);
+  color: white;
+  box-shadow: 0 8px 20px rgba(120,183,176,0.45);
+}
+
+/* Mood tracking */
+.mood-row {
+  display: flex;
+  justify-content: space-around;
+  margin: 1rem 0;
+}
+.mood-row button {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Mood graph */
+#moodGraph polyline {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 3;
+}
+
+/* Hidden elements */
+.hidden {
+  display: none;
+}

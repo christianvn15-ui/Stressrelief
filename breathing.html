@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Breathing • CalmSpace</title>
+
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet"
+ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+<header>
+  <h2>Breathing Exercises</h2>
+</header>
+
+<main class="center-page">
+  <section class="card">
+    <label for="preset">Preset</label>
+    <select id="preset">
+      <option value="4">Calm (4-4-4-4)</option>
+      <option value="3">Panic (3-3-3-3)</option>
+      <option value="5">Sleep (5-5-5-5)</option>
+      <option value="6">Focus (6-6-6-6)</option>
+    </select>
+
+    <svg width="220" height="220">
+      <circle cx="110" cy="110" r="90" class="breath-bg"/>
+      <circle cx="110" cy="110" r="90" class="breath-ring"/>
+      <text x="110" y="120" text-anchor="middle" id="breathText">Ready</text>
+    </svg>
+
+    <label><input type="checkbox" id="hapticsToggle" checked> Haptics</label>
+    <button id="breathToggleBtn"><i class="fa-solid fa-play"></i> Start</button>
+  </section>
+</main>
+
+<footer class="nav-footer">
+  <a href="breathing.html"><i class="fa-solid fa-lungs"></i></a>
+  <a href="meditation.html"><i class="fa-solid fa-spa"></i></a>
+    <a href="index.html" class="active"><i class="fa-solid fa-user"></i></a>
+  <a href="progress.html"><i class="fa-solid fa-chart-line"></i></a>
+  <a href="journal.html"><i class="fa-solid fa-book"></i></a>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
