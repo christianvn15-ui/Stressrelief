@@ -26,23 +26,18 @@
   <!-- ================= MEDITATION ================= -->
   <section class="card meditation-card">
     <h3>Meditation</h3>
-
     <label>
       Time (minutes)
       <input id="meditationTime" type="number" value="5" min="1">
     </label>
 
     <div class="controls">
-      <button onclick="startMeditation()">
-        <i class="fa-solid fa-play"></i> Start
-      </button>
-      <button onclick="stopMeditation()">
-        <i class="fa-solid fa-stop"></i> Stop
-      </button>
+      <button id="startMeditation"><i class="fa-solid fa-play"></i> Start</button>
+      <button id="stopMeditation"><i class="fa-solid fa-stop"></i> Stop</button>
     </div>
 
-    <p id="timerDisplay">05:00</p>
-    <p id="guidedText"></p>
+    <p id="meditationTimer">05:00</p>
+    <p id="meditationText"></p>
 
     <audio id="meditationAudio" loop src="zen.mp3"></audio>
   </section>
@@ -50,19 +45,14 @@
   <!-- ================= FOCUS ================= -->
   <section class="card focus-card">
     <h3>Focus</h3>
-
     <label>
       Time (minutes)
       <input id="focusTime" type="number" value="5" min="1">
     </label>
 
     <div class="controls">
-      <button onclick="startFocus()">
-        <i class="fa-solid fa-play"></i> Start
-      </button>
-      <button onclick="stopFocus()">
-        <i class="fa-solid fa-stop"></i> Stop
-      </button>
+      <button id="startFocus"><i class="fa-solid fa-play"></i> Start</button>
+      <button id="stopFocus"><i class="fa-solid fa-stop"></i> Stop</button>
     </div>
 
     <p id="focusTimer">05:00</p>
@@ -74,19 +64,14 @@
   <!-- ================= SLEEP ================= -->
   <section class="card sleep-card">
     <h3>Sleep</h3>
-
     <label>
       Time (minutes)
       <input id="sleepTime" type="number" value="10" min="1">
     </label>
 
     <div class="controls">
-      <button onclick="startSleep()">
-        <i class="fa-solid fa-play"></i> Start
-      </button>
-      <button onclick="stopSleep()">
-        <i class="fa-solid fa-stop"></i> Stop
-      </button>
+      <button id="startSleep"><i class="fa-solid fa-play"></i> Start</button>
+      <button id="stopSleep"><i class="fa-solid fa-stop"></i> Stop</button>
     </div>
 
     <p id="sleepTimer">10:00</p>
@@ -105,8 +90,7 @@
   <a href="journal.html"><i class="fa-solid fa-book"></i></a>
 </footer>
 
-<script src="app.js"></script>
-
+<script src="meditation.js"></script>
 <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./service-worker.js')
@@ -114,53 +98,5 @@ if ('serviceWorker' in navigator) {
     .catch(err => console.log('Service Worker registration failed:', err));
 }
 </script>
-
-<script>
-/* ================= OVERRIDE DISPLAY IDS FOR MULTI-TIMERS ================= */
-window.startMeditation = () => startSession("meditation");
-window.stopMeditation = () => stopSession("meditation");
-window.startFocus = () => startSession("focus");
-window.stopFocus = () => stopSession("focus");
-window.startSleep = () => startSession("sleep");
-window.stopSleep = () => stopSession("sleep");
-
-/* Update timer displays dynamically per type */
-function startSession(type) {
-  logSession(`${type}-sessions`);
-  recordUsage();
-
-  const timeInput = document.getElementById(`${type}Time`);
-  const audio = document.getElementById(`${type}Audio`);
-  const display = document.getElementById(`${type}Timer`);
-  const text = document.getElementById(`${type}Text`);
-  if (!timeInput || !audio || !display) return;
-
-  let sec = parseInt(timeInput.value || 5) * 60;
-  fadeIn(audio);
-
-  text && (text.textContent =
-    type === "sleep" ? "Let go and rest." :
-    type === "focus" ? "Stay gently focused." :
-    "Notice your breath.");
-
-  if (window[`${type}TimerInterval`]) clearInterval(window[`${type}TimerInterval`]);
-  window[`${type}TimerInterval`] = setInterval(() => {
-    sec--;
-    display.textContent = `${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')}`;
-    if (sec <= 0) stopSession(type);
-  }, 1000);
-}
-
-function stopSession(type) {
-  const audio = document.getElementById(`${type}Audio`);
-  audio && fadeOut(audio);
-  if (window[`${type}TimerInterval`]) clearInterval(window[`${type}TimerInterval`]);
-  const display = document.getElementById(`${type}Timer`);
-  const text = document.getElementById(`${type}Text`);
-  if (display) display.textContent = "Complete";
-  if (text) text.textContent = "";
-}
-</script>
-
 </body>
 </html>
