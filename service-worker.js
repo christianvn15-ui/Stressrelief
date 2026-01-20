@@ -8,6 +8,7 @@ const urlsToCache = [
   './progress.html',
   './styles.css',
   './app.js',
+  './meditation.js',
   './manifest.json',
   './zen.mp3',
   './sleep.mp3',
